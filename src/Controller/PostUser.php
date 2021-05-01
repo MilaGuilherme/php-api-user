@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+use function PHPSTORM_META\type;
 
 class PostUser
 {
@@ -25,7 +26,7 @@ class PostUser
     #[Route("/users", methods: ["POST"])]
     public function __invoke(Request $request): Response
     {
-        $user = $this->serializer->deserialize($request->getContent(), User::class, 'json');
+        $user = $this->serializer->deserialize($request->getContent(), 'App\Entity\User', 'json');
         $errors = $this->validator->validate($user);
 
         if (count($errors) > 0) {
@@ -37,7 +38,7 @@ class PostUser
             }, iterator_to_array($errors));
 
             $response = [
-                'error' => 'Informações inválidas para este método',
+                'error' => 'Informacoes invalidas',
                 'violations' => $violations
             ];
 
@@ -50,7 +51,7 @@ class PostUser
         return new JsonResponse([
             'status' => 'Usuario cadastrado com sucesso'
         ], Response::HTTP_CREATED, [
-            'Location' => '/users/'.$user->getId()
+            'location' => '/users/'.$user->getId()
             
         ]);
     }

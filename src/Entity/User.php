@@ -6,10 +6,12 @@ use App\Entity\Address;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="user")
+ * @UniqueEntity("email",message="Este email ja esta cadastrado")
  */
 class User
 {
@@ -22,31 +24,31 @@ class User
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank(message="O primeiro nome é obrigatório")
+     * @Assert\NotBlank(message="O primeiro nome e obrigatorio")
      * @Assert\Length(
      *     min=1,
      *     max=100,
-     *     minMessage="O primeiro nome deve ter no mínimo 1 caractere"
+     *     minMessage="O primeiro nome deve ter no minimo 1 caractere"
      * )
      */
     private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank(message="O sobrenome é obrigatório")
+     * @Assert\NotBlank(message="O sobrenome e obrigatório")
      * @Assert\Length(
      *     min=1,
      *     max=100,
-     *     minMessage="O sobrenome deve ter no mínimo 1 caractere"
+     *     minMessage="O sobrenome deve ter no minimo 1 caractere"
      * )
      */
     private string $lastName;
 
     /**
-     * @ORM\Column(type="string", length=100, unique=true)
-     * @Assert\NotBlank(message="O e-mail é obrigatório")
+     * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="O e-mail é obrigatorio")
      * @Assert\Email(
-     *     message = "O email '{{ value }}' não é válido."
+     *     message = "O email '{{ value }}' não é valido."
      * )
      */
     private string $email;
@@ -65,7 +67,6 @@ class User
   
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
         $this->phones = new ArrayCollection();
     }
 

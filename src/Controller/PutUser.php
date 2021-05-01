@@ -24,13 +24,13 @@ class PutUser
     #[Route("/users/{id}", methods: ["PUT"])]
     public function __invoke(int $id, Request $request): Response
     {
-        $request = $this->serializer->deserialize($request->getContent(), User::class,  format: 'json');
-
+        $request = $this->serializer->deserialize($request->getContent(),'App\Entity\User',  format: 'json');
+        $errors = $this->validator->validate($request);
         $user = $this->entityManager->find(User::class,$id);
 
         if (!$user) {
             return new JsonResponse([
-                'error' => 'Usuário não registrado'
+                'error' => 'Usuario nao registrado'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -45,21 +45,23 @@ class PutUser
             }, iterator_to_array($errors));
 
             $response = [
-                'error' => 'Informações inválidas para este método',
+                'error' => 'Informações invalidas para este metodo',
                 'violations' => $violations
             ];
-            
-
-        $user->setFirstName($request['firstName']);
-        $user->setLastName($request['lastName']);
-        $user->setEmail($request['email']);
-
             return new JsonResponse($response, Response::HTTP_BAD_REQUEST);
-        }
+        }        
+
+        $user->setFirstName($request->getFirstName());
+        $user->setLastName($request->getLastName());
+        $user->setEmail($request->getEmail());
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
-
-        return new Response(status: Response::HTTP_NO_CONTENT);
+        
+        return new JsonResponse([
+            'status' => 'Usuario atualizado com sucesso'
+        ], Response::HTTP_ACCEPTED, [
+            'location' => '/users/'.$user->getId()  
+        ]);
     }
 }

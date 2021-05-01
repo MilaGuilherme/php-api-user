@@ -22,7 +22,7 @@ class DeleteUser
 
         if (!$user) {
             return new JsonResponse([
-                'error' => 'Usuário não encontrado'
+                'error' => 'Usuario nao encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -31,7 +31,7 @@ class DeleteUser
 
         return new JsonResponse(
             [
-                'Success' => 'Usuário deletado'
+                'Success' => 'Usuario deletado'
             ],
             Response::HTTP_ACCEPTED
         );
