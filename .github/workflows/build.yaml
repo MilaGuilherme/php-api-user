@@ -19,6 +19,8 @@ jobs:
         run: php -v && composer --version
       - name: Install dependencies
         run: composer install -o
+      - name: Update dependencies
+        run: composer update
       - name: Start Mysql
         run: sudo systemctl start mysql
       - name: Create database
