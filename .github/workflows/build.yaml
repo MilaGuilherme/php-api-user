@@ -25,7 +25,7 @@ jobs:
         run: bin/console doctrine:database:create --env test
       - name: Create database schema
         run: bin/console doctrine:schema:create --env test
-      - name: Create database schema
+      - name: Create fixtures
         run: bin/console doctrine:fixtures:load --env test
       - name: Run functional tests
         run: bin/phpunit
