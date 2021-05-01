@@ -12,7 +12,7 @@ class GetUserTest extends WebTestCase
         $client = static::createClient();
         
         $client->request(method: 'GET', uri: '/users');
-        $firstUser = 3 || json_decode($client->getResponse()->getContent())[0]->id;
+        $firstUser = json_decode($client->getResponse()->getContent())[0]->id;
 
         $client ->request(method: 'GET', uri: '/users/'.$firstUser);
         $statusCode = $client->getResponse()->getStatusCode();
