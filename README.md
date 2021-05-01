@@ -9,6 +9,12 @@ pass:
 
 php bin/console doctrine:database:create
 
+**Migrar DB**
+
+php bin/console make:migration
+
+php bin/console doctrine:migrations:migrate
+
 **Criar Schema**
 
 php bin/console doctrine:schema:create     
