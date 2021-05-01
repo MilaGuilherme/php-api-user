@@ -1,16 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Tests\Controller;
 
+use App\Entity\User;
 use App\Tests\TestCase;
+use Faker\Factory;
 use Symfony\Component\HttpFoundation\Response;
 
-final class DeleteUserTest extends TestCase
+class GetUserActionTest extends TestCase
 {
-    public function test_delete_should_return_no_content(): void
+    
+    public function test_get_user_should_return_200(): void
     {
+        $faker = Factory::create();
 
         $user = new User();
         $user->setFirstName($faker->firstName());
@@ -19,17 +21,17 @@ final class DeleteUserTest extends TestCase
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->client->request(method: 'DELETE', uri: '/users/1');
+        $this->client->request(method: 'GET', uri: '/users/1');
         $statusCode = $this->client->getResponse()->getStatusCode();
 
-        $this->assertSame(Response::HTTP_NO_CONTENT, $statusCode);
+        $this->assertSame(Response::HTTP_OK, $statusCode);
     }
 
-    public function test_delete_should_return_not_found(): void
+    public function test_get_user_should_return_404(): void
     {
-        $this->client->request(method: 'DELETE', uri: '/users/999');
+        $this->client->request(method: 'GET', uri: '/users/999');
         $statusCode = $this->client->getResponse()->getStatusCode();
-
+        
         $this->assertSame(Response::HTTP_NOT_FOUND, $statusCode);
     }
 }

@@ -25,7 +25,6 @@ class PostUser
     #[Route("/users", methods: ["POST"])]
     public function __invoke(Request $request): Response
     {
-
         $user = $this->serializer->deserialize($request->getContent(), User::class, 'json');
         $errors = $this->validator->validate($user);
 
