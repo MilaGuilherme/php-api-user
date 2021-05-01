@@ -1,10 +1,13 @@
 # php-api-user
 
-Criar DB
+**Criar DB**
+
 php bin/console doctrine:database:create
 
-Criar Schema
+**Criar Schema**
+
 php bin/console doctrine:schema:create     
 
-Carregar Fixtures
+**Carregar Fixtures**
+
 php bin/console doctrine:fixtures:load
