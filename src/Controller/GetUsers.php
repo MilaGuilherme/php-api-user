@@ -27,6 +27,14 @@ class GetUsers
             }
         ]);
 
-        return JsonResponse::fromJsonString($response);
+        if(count($users)>0){
+            return JsonResponse::fromJsonString($response);
+        }
+        else{
+        return new JsonResponse(
+            Response::HTTP_NO_CONTENT
+        );
+        }
+
     }
 }

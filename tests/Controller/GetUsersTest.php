@@ -7,10 +7,10 @@ use App\Tests\TestCase;
 use Faker\Factory;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetUserTest extends TestCase
+class GetUsersTest extends TestCase
 {
     
-    public function test_get_user_should_return_200(): void
+    public function test_get_users_should_return_200(): void
     {
         $faker = Factory::create();
 
@@ -21,17 +21,17 @@ class GetUserTest extends TestCase
         $this->em->persist($user);
         $this->em->flush();
 
-        $this->client->request(method: 'GET', uri: '/users/1');
+        $this->client->request(method: 'GET', uri: '/users');
         $statusCode = $this->client->getResponse()->getStatusCode();
 
         $this->assertSame(Response::HTTP_OK, $statusCode);
     }
 
-    public function test_get_user_should_return_404(): void
+    public function test_get_users_should_return_204(): void
     {
-        $this->client->request(method: 'GET', uri: '/users/999');
+        $this->client->request(method: 'GET', uri: '/users');
         $statusCode = $this->client->getResponse()->getStatusCode();
         
-        $this->assertSame(Response::HTTP_NOT_FOUND, $statusCode);
+        $this->assertSame(Response::HTTP_NO_CONTENT, $statusCode);
     }
 }
