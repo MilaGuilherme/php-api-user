@@ -22,10 +22,10 @@ jobs:
       - name: Start Mysql
         run: sudo systemctl start mysql
       - name: Create database
-        run: sudo bin/console doctrine:database:create --env test
+        run: bin/console doctrine:database:create --env test
       - name: Create database schema
-        run: sudo bin/console doctrine:schema:create --env test
+        run: bin/console doctrine:schema:create --env test
       - name: Create fixtures
-        run: sudo bin/console doctrine:fixtures:load --env test
+        run: bin/console doctrine:fixtures:load --env test
       - name: Run functional tests
-        run: sudo bin/phpunit
+        run: bin/phpunit
