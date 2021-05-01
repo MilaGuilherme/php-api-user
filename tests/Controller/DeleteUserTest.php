@@ -3,36 +3,31 @@
 declare(strict_types=1);
 
 namespace App\Tests\Controller;
-use App\Entity\User;
-use App\Tests\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Faker\Factory;
 
 
-final class DeleteUserTest extends TestCase
+final class DeleteUserTest extends WebTestCase
 {
     public function test_delete_should_return_success(): void
     {
+        $client = static::createClient();
 
-        $faker = Factory::create();
+        $client->request(method: 'GET', uri: '/users');
+        $firstUser = json_decode($client->getResponse()->getContent())[0]->id;
 
-        $user = new User();
-        $user->setFirstName($faker->firstName());
-        $user->setLastName($faker->lastName());
-        $user->setEmail($faker->email());
-        $this->em->persist($user);
-        $this->em->flush();
-
-        $this->client->request(method: 'DELETE', uri: '/users/1');
-        $statusCode = $this->client->getResponse()->getStatusCode();
+        $client->request(method: 'DELETE', uri: '/users/'.$firstUser);
+        $statusCode = $client->getResponse()->getStatusCode();
 
         $this->assertSame(Response::HTTP_ACCEPTED, $statusCode);
     }
 
     public function test_delete_should_return_not_found(): void
     {
-        $this->client->request(method: 'DELETE', uri: '/users/999');
-        $statusCode = $this->client->getResponse()->getStatusCode();
+        $client = static::createClient();
+
+        $client->request(method: 'DELETE', uri: '/users/999');
+        $statusCode = $client->getResponse()->getStatusCode();
 
         $this->assertSame(Response::HTTP_NOT_FOUND, $statusCode);
     }
