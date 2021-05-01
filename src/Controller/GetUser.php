@@ -23,7 +23,7 @@ class GetUser
         $repository = $this->entityManager->getRepository(User::class);
         $user = $repository->find($id);
 
-        if (null === $user) {
+        if (!$user) {
             return new JsonResponse([
                 'error' => 'Usuário não encontrado'
             ], Response::HTTP_NOT_FOUND);

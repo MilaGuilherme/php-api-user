@@ -46,14 +46,14 @@ class Phone
         return $this->id;
     }
 
-    public function getAreaCode(): int
+    public function getDDD(): int
     {
-        return $this->areaCode;
+        return $this->ddd;
     }
 
-    public function setAreaCode(int $areaCode): void
+    public function setDDD(int $ddd): void
     {
-        $this->areaCode = $areaCode;
+        $this->ddd = $ddd;
     }
 
     public function getPhoneNumber(): string

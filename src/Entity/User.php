@@ -51,13 +51,14 @@ class User
      */
     private string $email;
 
-  /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Phone", mappedBy="user", cascade={"all"})
+    /**
+     * @ORM\OneToMany(targetEntity="Phone",cascade="persist", mappedBy="phone")
+     * @ORM\JoinColumn(name="phone_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $phones;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Address", cascade={"all"})
+     * @ORM\OneToOne(targetEntity="Address", cascade={"all"})
      * @ORM\JoinColumn(name="address_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private Address $address;
@@ -80,7 +81,6 @@ class User
 
     public function setFirstName(string $firstName): void
     {
-        $this->updatedAt = new \DateTime();
         $this->firstName = $firstName;
     }
 
@@ -91,7 +91,6 @@ class User
 
     public function setLastName(string $lastName): void
     {
-        $this->updatedAt = new \DateTime();
         $this->lastName = $lastName;
     }
 
@@ -102,7 +101,6 @@ class User
 
     public function setEmail(string $email): void
     {
-        $this->updatedAt = new \DateTime();
         $this->email = $email;
     }
 
@@ -113,7 +111,6 @@ class User
 
     public function setAddress($address): void
     {
-        $this->updatedAt = new \DateTime();
         $this->address = $address;
     }
 
@@ -122,9 +119,8 @@ class User
         return $this->phones;
     }
 
-    public function setPhones($phones): void
+    public function addPhone($phone): void
     {
-        $this->updatedAt = new \DateTime();
-        $this->phones = $phones;
+        $this->phones[] = $phone;
     }
 }

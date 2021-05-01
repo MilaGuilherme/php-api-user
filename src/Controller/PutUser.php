@@ -28,7 +28,7 @@ class PutUser
 
         $user = $this->entityManager->find(User::class,$id);
 
-        if (null === $user) {
+        if (!$user) {
             return new JsonResponse([
                 'error' => 'Usuário não registrado'
             ], Response::HTTP_NOT_FOUND);
