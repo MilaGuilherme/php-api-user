@@ -43,7 +43,7 @@ class User
     private string $lastName;
 
     /**
-     * @ORM\Column(type="string", length=100, unique="true")
+     * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\NotBlank(message="O e-mail é obrigatório")
      * @Assert\Email(
      *     message = "O email '{{ value }}' não é válido."

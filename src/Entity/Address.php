@@ -22,7 +22,7 @@ class Address
      * @ORM\Column(type="string")
      * @Assert\Choice(
      *     choices = {"AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"},
-     *     message = "Informe um estado válido"
+     *     message = "Informe um estado válido")
      */
     private string $state;
 

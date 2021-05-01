@@ -22,16 +22,13 @@ class GetUser
     {
         $repository = $this->entityManager->getRepository(User::class);
         $user = $repository->find($id);
+
         if (null === $user) {
             return new JsonResponse([
                 'error' => 'Usuário não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
 
-        return JsonResponse::fromJsonString($this->serializer->serialize($user, 'json', [
-            'circular_reference_handler' => function ($object) {
-                return $object->getId();
-            }
-        ]));
+        return JsonResponse::fromJsonString($this->serializer->serialize($user, 'json'));
     }
 }
