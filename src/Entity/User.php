@@ -52,7 +52,7 @@ class User
     private string $email;
 
     /**
-     * @ORM\OneToMany(targetEntity="Phone",cascade="persist", mappedBy="phone")
+     * @ORM\ManyToMany(targetEntity="Phone",cascade="persist")
      * @ORM\JoinColumn(name="phone_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $phones;
@@ -119,8 +119,8 @@ class User
         return $this->phones;
     }
 
-    public function addPhone($phone): void
+    public function addPhone($phones): void
     {
-        $this->phones[] = $phone;
+        $this->phones[] = $phones;
     }
 }
