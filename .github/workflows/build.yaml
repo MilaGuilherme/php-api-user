@@ -1,0 +1,31 @@
+#./.github/workflows/build.yaml
+name: "Build & Tests"
+on:
+  push:
+    branches:
+      - main # ou o nome do branch que vocês estão utilizando.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+# Descomente essas duas linhas abaixo caso queira alterar o endereço de conexão com o banco de dados para o ambiente de testes. A recomendação é 
+# ter um arquivo .env.test na raiz do projeto com esse endereço, mas em alguns pode ser necessário conectar em um endereço diferente.
+    env:
+      DATABASE_URL: mysql://root:root@127.0.0.1:3306/api_user_test?serverVersion=5.7
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Check runtime version
+        run: php -v && composer --version
+      - name: Install dependencies
+        run: composer install -o
+      - name: Start Mysql
+        run: sudo systemctl start mysql
+      - name: Create database
+        run: bin/console doctrine:database:create --env test
+      - name: Create database schema
+        run: bin/console doctrine:schema:create --env test
+      - name: Create database schema
+        run: bin/console doctrine:fixtures:load --env test
+      - name: Run functional tests
+        run: bin/phpunit
